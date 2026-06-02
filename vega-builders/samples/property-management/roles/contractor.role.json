@@ -1,0 +1,26 @@
+{
+    "roles": {
+        "contractor": {
+            "name": "Contractor"
+        }
+    },
+    "permissions": {
+        "contractor": {
+            "work_orders": {
+                "actions": [
+                    "list",
+                    "show",
+                    "edit"
+                ],
+                "columns": {
+                    "readonly": [
+                        "work_order_amount",
+                        "contractor_id",
+                        "unit_id"
+                    ]
+                },
+                "row_scope": "contractors"
+            }
+        }
+    }
+}
