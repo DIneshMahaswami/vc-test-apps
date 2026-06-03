@@ -80,6 +80,9 @@
             ],
             "invoices_analytics": [
                 "*"
+            ],
+            "complaints": [
+                "*"
             ]
         },
         "sales": {

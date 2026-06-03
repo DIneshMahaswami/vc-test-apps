@@ -40,6 +40,8 @@ DROP TABLE IF EXISTS "document_templates";
 DROP SEQUENCE IF EXISTS "document_templates_id_seq";
 DROP TABLE IF EXISTS "users";
 DROP SEQUENCE IF EXISTS "users_id_seq";
+DROP TABLE IF EXISTS "complaints";
+DROP SEQUENCE IF EXISTS "complaints_id_seq";
 DROP TABLE IF EXISTS "contractors";
 DROP SEQUENCE IF EXISTS "contractors_id_seq";
 DROP TABLE IF EXISTS "properties";
@@ -224,6 +226,19 @@ CREATE TABLE "contractors" (
 );
 CREATE INDEX IF NOT EXISTS "idx_contractors_tenant_id" ON "contractors" ("tenant_id");
 CREATE INDEX IF NOT EXISTS "idx_contractors_name" ON "contractors" ("name");
+
+CREATE SEQUENCE IF NOT EXISTS "complaints_id_seq";
+CREATE TABLE "complaints" (
+  "id" INTEGER PRIMARY KEY DEFAULT nextval('"complaints_id_seq"'),
+  "title" TEXT,
+  "details" TEXT,
+  "mobile_number" TEXT,
+  "fine" NUMERIC,
+  "complaint_on" TIMESTAMP WITH TIME ZONE,
+  "tenant_id" INTEGER REFERENCES "tenants"("id")
+);
+CREATE INDEX IF NOT EXISTS "idx_complaints_tenant_id" ON "complaints" ("tenant_id");
+CREATE INDEX IF NOT EXISTS "idx_complaints_title" ON "complaints" ("title");
 
 CREATE SEQUENCE IF NOT EXISTS "users_id_seq";
 CREATE TABLE "users" (
@@ -671,6 +686,14 @@ INSERT INTO "contractors" ("id", "name", "contractor_type", "notes", "tenant_id"
 SELECT '2', 'PowerTech electricals', 'electrical', 'Licensed electricians, commercial experience', '2'
 WHERE EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 
+DELETE FROM "complaints";
+INSERT INTO "complaints" ("id", "title", "details", "mobile_number", "fine", "complaint_on", "tenant_id")
+SELECT '1', 'Garbage not disposed properly', 'Garbage Not disposed properly', '008682089380', '234324', '2026-06-03T00:00:00.000Z', '2'
+WHERE EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+INSERT INTO "complaints" ("id", "title", "details", "mobile_number", "fine", "complaint_on", "tenant_id")
+SELECT '2', 'Test complaint 2', 'Garbage Not disposed properly', 'pooo8682089380', '123123213', '2026-06-04', '2'
+WHERE EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+
 DELETE FROM "users";
 INSERT INTO "users" ("id", "first_name", "last_name", "email", "mobile_no", "role", "is_active", "creation_date", "scope_extensions", "image_file_id", "image_file_name", "tenant_id")
 SELECT '1', 'Dinesh', 'R', 'dinesh@mahaswami.com', NULL, 'admin', TRUE, '2026-06-03T11:05:40.950Z', NULL, '1', 'user2.jpeg', '2'
@@ -773,7 +796,7 @@ SELECT '1', '1', 'dev', '2026-06-03T11:07:58.034Z', '2409:4091:9031:fe09:4af0:5a
 WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
   EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
-SELECT '2', '1', 'dev', '2026-06-03T11:08:12.647Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '31bca5127abc2aa8a52e77117924da3178560446801b9e6be584f23751166af1', '2026-06-05T11:08:12.647Z', TRUE, NULL, NULL, '2'
+SELECT '2', '1', 'dev', '2026-06-03T11:08:12.647Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '31bca5127abc2aa8a52e77117924da3178560446801b9e6be584f23751166af1', '2026-06-05T11:08:12.647Z', FALSE, '2026-06-03T12:35:49.749Z', 'manual', '2'
 WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
   EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
@@ -783,6 +806,10 @@ WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '2') AND
 INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
 SELECT '4', '2', 'dev', '2026-06-03T12:01:26.363Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '914520e679511886f299f882852540f105e8092cef0cb710e9b4758920b9bbae', '2026-06-05T12:01:26.363Z', TRUE, NULL, NULL, '2'
 WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '2') AND
+  EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
+SELECT '5', '1', 'dev', '2026-06-03T12:36:00.467Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '45adb1db2245606d14651949a8e2e9e87018c91ca721988811cb6c046fd3566a', '2026-06-05T12:36:00.467Z', TRUE, NULL, NULL, '2'
+WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
   EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 
 DELETE FROM "leads";
@@ -833,7 +860,7 @@ WHERE EXISTS (SELECT 1 FROM "units" ref WHERE ref."id" = '8') AND
 
 DELETE FROM "user_security_profiles";
 INSERT INTO "user_security_profiles" ("id", "user_id", "email", "last_login_date", "failed_login_attempts_count", "creation_ip_address", "creation_location", "auth_policy_id", "is_password_enrolled", "is_authenticator_enrolled", "is_passkey_enrolled", "primary_method", "recovery_codes_remaining_count", "totp_credential_id", "password_auth_id", "passkey_credential_identifiers", "is_new_location_notify_enabled", "is_new_device_notify_enabled", "is_account_lockout_notify_enabled", "bypass_code_hash", "bypass_code_expires_at", "setup_token", "setup_token_expires_at", "inactive_locked_at", "tenant_id")
-SELECT '1', '1', 'dinesh@mahaswami.com', '2026-06-03T11:08:12.647Z', '0', NULL, NULL, '1', TRUE, FALSE, FALSE, 'password', '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2'
+SELECT '1', '1', 'dinesh@mahaswami.com', '2026-06-03T12:36:00.467Z', '0', NULL, NULL, '1', TRUE, FALSE, FALSE, 'password', '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2'
 WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
   EXISTS (SELECT 1 FROM "auth_policies" ref WHERE ref."id" = '1') AND
   EXISTS (SELECT 1 FROM "password_auths" ref WHERE ref."id" = '1') AND
@@ -1023,6 +1050,7 @@ SELECT setval('"digital_signatures_id_seq"', COALESCE((SELECT MAX("id") FROM "di
 SELECT setval('"auth_policies_id_seq"', COALESCE((SELECT MAX("id") FROM "auth_policies"), 0) + 1, false);
 SELECT setval('"properties_id_seq"', COALESCE((SELECT MAX("id") FROM "properties"), 0) + 1, false);
 SELECT setval('"contractors_id_seq"', COALESCE((SELECT MAX("id") FROM "contractors"), 0) + 1, false);
+SELECT setval('"complaints_id_seq"', COALESCE((SELECT MAX("id") FROM "complaints"), 0) + 1, false);
 SELECT setval('"users_id_seq"', COALESCE((SELECT MAX("id") FROM "users"), 0) + 1, false);
 SELECT setval('"document_templates_id_seq"', COALESCE((SELECT MAX("id") FROM "document_templates"), 0) + 1, false);
 SELECT setval('"customers_id_seq"', COALESCE((SELECT MAX("id") FROM "customers"), 0) + 1, false);

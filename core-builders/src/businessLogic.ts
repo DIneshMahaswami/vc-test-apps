@@ -8,6 +8,7 @@ import { PaymentsLogic } from './logic/payments.ts';
 import { ContractorsLogic } from './logic/contractors.ts';
 import { ServiceRequestsLogic } from './logic/service_requests.ts';
 import { WorkOrdersLogic } from './logic/work_orders.ts';
+import { ComplaintsLogic } from './logic/complaints.ts';
 
 
 export const businessLogic = () => {
@@ -23,6 +24,7 @@ export const businessLogic = () => {
         ContractorsLogic,
         ServiceRequestsLogic,
         WorkOrdersLogic,
+        ComplaintsLogic,
 
     ];
 }    

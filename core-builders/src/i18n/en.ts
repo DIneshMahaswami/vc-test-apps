@@ -3,6 +3,9 @@ import { englishMessages, defineCatalog } from '@mahaswami/vc-frontend';
 
 const customEnglishMessages = defineCatalog(englishMessages, {
     resources: {
+        complaints: {
+            name: 'Complaints',
+        },
         work_orders: {
             name: 'Work Orders',
         },

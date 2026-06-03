@@ -18,6 +18,7 @@ import { WorkOrdersAnalyticsResource, WorkOrdersAnalyticsMenu } from './analytic
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import { PropertiesAnalyticsResource, PropertiesAnalyticsMenu } from './analytics/PropertiesAnalytics';
 import { InvoicesAnalyticsResource, InvoicesAnalyticsMenu } from './analytics/InvoicesAnalytics';
+import { ComplaintsResource, ComplaintsMenu } from './views/complaints.tsx';
 
 
 export const configureResources = (_permissions: any) => {
@@ -39,6 +40,7 @@ export const configureResources = (_permissions: any) => {
         WorkOrdersAnalyticsResource,
         PropertiesAnalyticsResource,
         InvoicesAnalyticsResource,
+        ComplaintsResource,
 
     ]
 
@@ -72,6 +74,7 @@ export const configureMenus = (permissions: any) => {
                 <ContractorsMenu />
                 <ServiceRequestsMenu />
                 <WorkOrdersMenu />
+                <ComplaintsMenu />
                 <NestedMenu label="Settings" icon={<GearIcon />} defaultOpen={false}>
                     {isDocumentGenerationModuleActive() && <DocumentTemplatesMenu />}
                     {isHistoryModuleActive() && <HistoryMenu />}
@@ -93,7 +96,7 @@ export const configureMenus = (permissions: any) => {
 
 export const configureLandingPage = (_permissions: any) => {
     return {
-                "super_admin": "/tenants",
+        "super_admin": "/tenants",
         "contractor": "/work_orders",
         "customer": "/payments",
         "sales": "/properties"
