@@ -106,10 +106,16 @@ const ServiceRequestShow = (props: any) => {
 
 const serviceRequestsFieldSchema: FieldSchema = {
     rental_agreement_id: { required: true, resource: 'rental_agreements' },
-    customer_id: { resource: 'customers' },
+    customer_id: { resource: 'customers',
+            rule: { left: 'rental_agreement.customer_id', right: 0, operation: 'default' }
+        },
     request_type: { ui: 'select', required: true, choices: requestTypeChoices },
-    status: { ui: 'select', required: true, choices: statusChoices },
-    request_date: { required: true },
+    status: { ui: 'select', required: true, choices: statusChoices,
+    rule: { left: 'open', leftMode: 'value', right: 0, operation: 'default' }
+},
+    request_date: { required: true,
+                rule: { left: 'today', right: 0, operation: 'default' }
+            },
     completed_date: {}
 };
 const serviceRequestsSearchableFields: string[] = [

@@ -101,9 +101,15 @@ const PaymentShow = (props: any) => {
 const paymentsFieldSchema: FieldSchema = {
     invoice_id: { required: true, resource: 'invoices' },
     payment_reference: {},
-    payment_date: { required: true },
-    payment_method: { ui: 'select', required: true, choices: paymentMethodChoices },
-    payment_amount: { type: 'money', currency: 'USD', required: true }
+    payment_date: { required: true,
+                rule: { left: 'today', right: 0, operation: 'default' }
+            },
+    payment_method: { ui: 'select', required: true, choices: paymentMethodChoices,
+                rule: { left: 'bank_transfer', leftMode: 'value', right: 0, operation: 'default' }
+            },
+    payment_amount: { type: 'money', currency: 'USD', required: true,
+                rule: { left: 'invoice.total_amount', right: 0, operation: 'default' }
+            }
 };
 const paymentsSearchableFields: string[] = [
     'invoice.invoice_no',

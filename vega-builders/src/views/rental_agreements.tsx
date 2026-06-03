@@ -1,7 +1,32 @@
-import { Resource, createDefaults, tableDefaults,
-	editDefaults, formDefaults, listDefaults,
-	showDefaults, RowActions, DataTable, SimpleShowLayout, SimpleForm,
-	type ResourceActionDefs, type FieldSchema, MoneyField, MoneyInput, SimpleFileField, SimpleFileInput, CardGrid, recordRep, createReferenceField, createReferenceInput, ReferenceLiveFilter, ChoicesLiveFilter, DateLiveFilter, MoneyLiveFilter, TextLiveFilter} from '@mahaswami/vc-frontend';
+import {
+    Resource,
+    createDefaults,
+    tableDefaults,
+    editDefaults,
+    formDefaults,
+    listDefaults,
+    showDefaults,
+    RowActions,
+    DataTable,
+    SimpleShowLayout,
+    SimpleForm,
+    type ResourceActionDefs,
+    type FieldSchema,
+    MoneyField,
+    MoneyInput,
+    SimpleFileField,
+    SimpleFileInput,
+    CardGrid,
+    recordRep,
+    createReferenceField,
+    createReferenceInput,
+    ReferenceLiveFilter,
+    ChoicesLiveFilter,
+    DateLiveFilter,
+    MoneyLiveFilter,
+    TextLiveFilter,
+    RuleInput
+} from '@mahaswami/vc-frontend';;
 import { Assignment } from '@mui/icons-material';
 import { Create, Edit, List, Menu, Show,
     type ListProps, DateField, DateInput, SelectField, SelectInput, AutocompleteInput, required} from "react-admin";
@@ -77,7 +102,7 @@ const RentalAgreementForm = (props: any) => {
             <DateInput source="rental_end_date" />
             <DateInput source="agreement_date" />
             <MoneyInput source="rent_amount" currency="USD" validate={required()} />
-            <MoneyInput source="security_deposit_amount" currency="USD" />
+            <RuleInput source="security_deposit_amount" />
             <SimpleFileInput source="rental_agreement_attachment_file_id" />
             <SimpleFileField source="rental_agreement_attachment_file_id" title="rental_agreement_attachment_file_name" />
         </SimpleForm>
@@ -112,6 +137,7 @@ const RentalAgreementShow = (props: any) => {
                 <DateField source="agreement_date" />
                 <MoneyField source="rent_amount" currency="USD" />
                 <MoneyField source="security_deposit_amount" currency="USD" />
+                <MoneyField source="security_deposit_amount" currency="USD" />
                 <SimpleFileField source="rental_agreement_attachment_file_id" title="rental_agreement_attachment_file_name" />
             </SimpleShowLayout>
         </Show>
@@ -121,12 +147,18 @@ const RentalAgreementShow = (props: any) => {
 const rentalAgreementsFieldSchema: FieldSchema = {
     unit_id: { required: true, resource: 'units' },
     customer_id: { required: true, resource: 'customers' },
-    status: { ui: 'select', required: true, choices: statusChoices },
+    status: { ui: 'select', required: true, choices: statusChoices,
+    rule: { left: 'draft', leftMode: 'value', right: 0, operation: 'default' }
+},
     rental_start_date: { required: true },
     rental_end_date: {},
-    agreement_date: {},
+    agreement_date: {
+                    rule: { left: 'today', right: 0, operation: 'default' }
+                },
     rent_amount: { type: 'money', currency: 'USD', required: true },
-    security_deposit_amount: { type: 'money', currency: 'USD' },
+    security_deposit_amount: { type: 'money', currency: 'USD',
+            rule: { left: 'rent_amount', right: 2, operation: 'multiply', decimals: 2 }
+        },
     rental_agreement_attachment_file_id: {}
 };
 const rentalAgreementsSearchableFields: string[] = [

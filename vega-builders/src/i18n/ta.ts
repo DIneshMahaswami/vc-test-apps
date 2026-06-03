@@ -187,7 +187,8 @@ const catalog: TranslationMessages = {
         }
     },
     menuGroups: {
-        settings: "அமைப்புகள்"
+        settings: "அமைப்புகள்",
+        analytics: "பகுப்பாய்வு"
     },
     vc: {
         crud: {

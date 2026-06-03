@@ -8,7 +8,7 @@
   },
   "branding": {
     "logo": "vegacore_logo.png",
-    "theme": "soft",
+    "theme": "Green 1",
     "layout": "vertical"
   },
   "auth": {
@@ -65,6 +65,28 @@
       "domains": [
         "localhost"
       ]
+    },
+    "prod": {
+      "data": {
+        "type": "hd",
+        "ref": "hd-demo-1",
+        "schema": "vega_builders_prod"
+      },
+      "files": {
+        "type": "r2",
+        "ref": "VC_BUCKET"
+      },
+      "notifications": {
+        "email": {
+          "type": "ses",
+          "region": "us-east-1",
+          "senderEmail": "vegacore@mahaswami.com",
+          "useDemoCreds": true
+        }
+      },
+      "service": {
+        "url": "https://swan-backend-preview.upkeep-plosive0o.workers.dev"
+      }
     }
   }
 }
