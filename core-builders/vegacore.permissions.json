@@ -1,0 +1,68 @@
+{
+    "roles": {
+        "super_admin": {
+            "name": "Super Admin",
+            "description": "Super Admins have access to everything"
+        },
+        "admin": {
+            "name": "Admin",
+            "description": "Admins have access to most things"
+        }
+    },
+    "permissions": {
+        "super_admin": {
+            "*": [
+                "*"
+            ]
+        },
+        "admin": {
+            "document_templates": [
+                "*"
+            ],
+            "digital_signatures": [
+                "*"
+            ],
+            "error_logs": [
+                "list"
+            ],
+            "history": [
+                "list",
+                "show",
+                "restoreHistory"
+            ],
+            "users": [
+                "*"
+            ],
+            "properties": [
+                "*"
+            ],
+            "units": [
+                "*"
+            ],
+            "customers": [
+                "*"
+            ],
+            "rental_agreements": [
+                "*"
+            ],
+            "leads": [
+                "*"
+            ],
+            "invoices": [
+                "*"
+            ],
+            "payments": [
+                "*"
+            ],
+            "contractors": [
+                "*"
+            ],
+            "service_requests": [
+                "*"
+            ],
+            "work_orders": [
+                "*"
+            ]
+        }
+    }
+}
