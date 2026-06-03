@@ -65,6 +65,29 @@
       "domains": [
         "localhost"
       ]
+    },
+    "prod": {
+      "data": {
+        "type": "hd",
+        "ref": "hd-demo-1",
+        "schema": "core_builders_prod"
+      },
+      "files": {
+        "type": "r2",
+        "ref": "VC_BUCKET"
+      },
+      "notifications": {
+        "email": {
+          "type": "gmail",
+          "senderEmail": "vegacore@mahaswami.com"
+        }
+      },
+      "service": {
+        "url": "https://swan-backend-preview.upkeep-plosive0o.workers.dev"
+      },
+      "domains": [
+        "core-builders.remoteaccess.cc"
+      ]
     }
   }
 }
