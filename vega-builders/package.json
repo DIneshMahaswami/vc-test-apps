@@ -9,7 +9,7 @@
     "format": "prettier --write ./src"
   },
   "dependencies": {
-    "@mahaswami/vc-frontend": "^2.2.0",
+    "@mahaswami/vc-frontend": "^2.2.37",
     "@mui/x-charts": "^7.24.1",
     "@simplewebauthn/browser": "^13.3.0",
     "@tiptap/suggestion": "^2.11.5",
