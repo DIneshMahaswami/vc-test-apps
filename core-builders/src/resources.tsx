@@ -14,6 +14,10 @@ import { PaymentsResource, PaymentsMenu } from './views/payments.tsx';
 import { ContractorsResource, ContractorsMenu } from './views/contractors.tsx';
 import { ServiceRequestsResource, ServiceRequestsMenu } from './views/service_requests.tsx';
 import { WorkOrdersResource, WorkOrdersMenu } from './views/work_orders.tsx';
+import { WorkOrdersAnalyticsResource, WorkOrdersAnalyticsMenu } from './analytics/WorkOrdersAnalytics';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import { PropertiesAnalyticsResource, PropertiesAnalyticsMenu } from './analytics/PropertiesAnalytics';
+import { InvoicesAnalyticsResource, InvoicesAnalyticsMenu } from './analytics/InvoicesAnalytics';
 
 
 export const configureResources = (_permissions: any) => {
@@ -32,6 +36,9 @@ export const configureResources = (_permissions: any) => {
         ContractorsResource,
         ServiceRequestsResource,
         WorkOrdersResource,
+        WorkOrdersAnalyticsResource,
+        PropertiesAnalyticsResource,
+        InvoicesAnalyticsResource,
 
     ]
 
@@ -50,6 +57,11 @@ export const configureMenus = (permissions: any) => {
         <>
             <AutoLayoutMenu>
 
+                <NestedMenu label="Analytics" icon={<AnalyticsIcon />} defaultOpen={true}>
+                        <WorkOrdersAnalyticsMenu />
+                        <PropertiesAnalyticsMenu />
+                        <InvoicesAnalyticsMenu />
+                    </NestedMenu>
                 <PropertiesMenu />
                 <UnitsMenu />
                 <CustomersMenu />
@@ -81,6 +93,9 @@ export const configureMenus = (permissions: any) => {
 
 export const configureLandingPage = (_permissions: any) => {
     return {
-        "super_admin": "/tenants",
+                "super_admin": "/tenants",
+        "contractor": "/work_orders",
+        "customer": "/payments",
+        "sales": "/properties"
     }
 }

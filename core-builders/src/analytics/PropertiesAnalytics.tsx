@@ -1,0 +1,267 @@
+/* @analytics-builder
+{
+  "v": 1,
+  "config": {
+    "title": "Properties",
+    "dataset": "properties",
+    "defaultPeriod": "month",
+    "enablePeriodSelector": false,
+    "enableComparison": false,
+    "enableGlobalFilters": true,
+    "dateField": "",
+    "availableFilters": [
+      {
+        "field": "property_type",
+        "label": "Property Type"
+      },
+      {
+        "field": "city",
+        "label": "City"
+      }
+    ],
+    "globalFilters": {},
+    "widgets": [
+      {
+        "id": "widget-prop-001",
+        "type": "kpi",
+        "title": "Total Properties",
+        "dimensions": [],
+        "measures": [
+          {
+            "field": "name",
+            "aggregation": "count"
+          }
+        ],
+        "layout": {
+          "columnSpan": 4
+        }
+      },
+      {
+        "id": "widget-prop-002",
+        "type": "kpi",
+        "title": "Vacant Units",
+        "dataset": "units",
+        "dimensions": [],
+        "measures": [
+          {
+            "field": "name",
+            "aggregation": "count",
+            "format": "number"
+          }
+        ],
+        "layout": {
+          "columnSpan": 4
+        },
+        "filters": {
+          "status": [
+            "available"
+          ]
+        }
+      },
+      {
+        "id": "widget-prop-003",
+        "type": "kpi",
+        "title": "Units Under Maintenance",
+        "dataset": "units",
+        "dimensions": [],
+        "measures": [
+          {
+            "field": "name",
+            "aggregation": "count",
+            "format": "number"
+          }
+        ],
+        "layout": {
+          "columnSpan": 4
+        },
+        "filters": {
+          "status": [
+            "under_maintenance"
+          ]
+        }
+      },
+      {
+        "id": "widget-prop-004",
+        "type": "pie",
+        "title": "Properties by Type",
+        "dimensions": [
+          {
+            "field": "property_type"
+          }
+        ],
+        "measures": [
+          {
+            "field": "name",
+            "aggregation": "count"
+          }
+        ],
+        "layout": {
+          "columnSpan": 6
+        }
+      },
+      {
+        "id": "widget-prop-005",
+        "type": "bar",
+        "title": "Properties by City",
+        "dimensions": [
+          {
+            "field": "city"
+          }
+        ],
+        "measures": [
+          {
+            "field": "name",
+            "aggregation": "count"
+          }
+        ],
+        "layout": {
+          "columnSpan": 6
+        }
+      }
+    ]
+  }
+}
+*/
+import React from 'react';
+import { AnalyticsDashboard, WidgetConfig, Resource} from '@mahaswami/vc-frontend';
+import { Menu } from 'react-admin';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+
+export const PropertiesAnalytics: React.FC = () => {
+    const widgets: WidgetConfig[] = [
+        {
+            "id": "widget-prop-001",
+            "type": "kpi",
+            "title": "Total Properties",
+            "dimensions": [],
+            "measures": [
+                {
+                    "field": "name",
+                    "aggregation": "count"
+                }
+            ],
+            "layout": {
+                "columnSpan": 4
+            }
+        },
+        {
+            "id": "widget-prop-002",
+            "type": "kpi",
+            "title": "Vacant Units",
+            "dataset": "units",
+            "dimensions": [],
+            "measures": [
+                {
+                    "field": "name",
+                    "aggregation": "count",
+                    "format": "number"
+                }
+            ],
+            "layout": {
+                "columnSpan": 4
+            },
+            "filters": {
+                "status": [
+                    "available"
+                ]
+            }
+        },
+        {
+            "id": "widget-prop-003",
+            "type": "kpi",
+            "title": "Units Under Maintenance",
+            "dataset": "units",
+            "dimensions": [],
+            "measures": [
+                {
+                    "field": "name",
+                    "aggregation": "count",
+                    "format": "number"
+                }
+            ],
+            "layout": {
+                "columnSpan": 4
+            },
+            "filters": {
+                "status": [
+                    "under_maintenance"
+                ]
+            }
+        },
+        {
+            "id": "widget-prop-004",
+            "type": "pie",
+            "title": "Properties by Type",
+            "dimensions": [
+                {
+                    "field": "property_type"
+                }
+            ],
+            "measures": [
+                {
+                    "field": "name",
+                    "aggregation": "count"
+                }
+            ],
+            "layout": {
+                "columnSpan": 6
+            }
+        },
+        {
+            "id": "widget-prop-005",
+            "type": "bar",
+            "title": "Properties by City",
+            "dimensions": [
+                {
+                    "field": "city"
+                }
+            ],
+            "measures": [
+                {
+                    "field": "name",
+                    "aggregation": "count"
+                }
+            ],
+            "layout": {
+                "columnSpan": 6
+            }
+        }
+    ];
+
+    return (
+        <AnalyticsDashboard
+            title="Properties"
+            dataset="properties"
+            defaultPeriod="month"
+            enablePeriodSelector={false}
+            enableComparison={false}
+            enableGlobalFilters={true}
+            availableFilters={[
+                      {
+                                "field": "property_type",
+                                "label": "Property Type"
+                      },
+                      {
+                                "field": "city",
+                                "label": "City"
+                      }
+            ]}
+            widgets={widgets}
+        />
+    );
+};
+
+const ANALYTICS_RESOURCE = 'properties_analytics';
+
+export const PropertiesAnalyticsResource = (
+    <Resource
+        name={ANALYTICS_RESOURCE}
+        icon={AnalyticsIcon}
+        hasAnalytics
+        list={<PropertiesAnalytics />}
+    />
+);
+
+export const PropertiesAnalyticsMenu = () => (
+    <Menu.Item to={`/${ANALYTICS_RESOURCE}`} primaryText="Properties" leftIcon={<AnalyticsIcon />} />
+);

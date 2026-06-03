@@ -62,7 +62,7 @@ export const configureToolbarActions = (_permissions: any) => {
 }
 
 export const themes = (defaultThemes: any) => {
-    return defaultThemes;
+    return [...defaultThemes, coreTheme];
 }
 
 export const wrapCustomDataProvider = (_queryClient: any, dataProvider: any) => {
@@ -71,6 +71,7 @@ export const wrapCustomDataProvider = (_queryClient: any, dataProvider: any) => 
 
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import englishMessages from './i18n/en';
+import { coreTheme } from './themes/coreTheme';
 
 const messages = {
     en: englishMessages,

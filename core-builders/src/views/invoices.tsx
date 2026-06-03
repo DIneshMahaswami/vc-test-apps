@@ -1,7 +1,32 @@
-import { Resource, createDefaults, tableDefaults,
-	editDefaults, formDefaults, listDefaults,
-	showDefaults, RowActions, DataTable, SimpleShowLayout, SimpleForm,
-	type ResourceActionDefs, type FieldSchema, MoneyField, MoneyInput, SimpleFileField, SimpleFileInput, AutoReferenceNumberInput, CardGrid, createReferenceField, createReferenceInput, ReferenceLiveFilter, ChoicesLiveFilter, DateLiveFilter, MoneyLiveFilter, TextLiveFilter} from '@mahaswami/vc-frontend';
+import {
+    Resource,
+    createDefaults,
+    tableDefaults,
+    editDefaults,
+    formDefaults,
+    listDefaults,
+    showDefaults,
+    RowActions,
+    DataTable,
+    SimpleShowLayout,
+    SimpleForm,
+    type ResourceActionDefs,
+    type FieldSchema,
+    MoneyField,
+    MoneyInput,
+    SimpleFileField,
+    SimpleFileInput,
+    AutoReferenceNumberInput,
+    CardGrid,
+    createReferenceField,
+    createReferenceInput,
+    ReferenceLiveFilter,
+    ChoicesLiveFilter,
+    DateLiveFilter,
+    MoneyLiveFilter,
+    TextLiveFilter,
+    RuleInput
+} from '@mahaswami/vc-frontend';;
 import { Receipt } from '@mui/icons-material';
 import { Create, Edit, List, Menu, Show,
     type ListProps, TextField, DateField, DateInput, SelectField, SelectInput, AutocompleteInput, required} from "react-admin";
@@ -76,10 +101,10 @@ const InvoiceForm = (props: any) => {
                 <AutocompleteInput validate={required()} />
             </RentalAgreementsReferenceInput>
             <SelectInput source="payment_status" choices={paymentStatusChoices} validate={required()} />
-            <DateInput source="due_date" validate={required()} />
-            <MoneyInput source="base_amount" currency="USD" />
-            <MoneyInput source="gst_amount" currency="USD" />
-            <MoneyInput source="total_amount" currency="USD" validate={required()} />
+            <RuleInput source="due_date" />
+            <RuleInput source="base_amount" />
+            <RuleInput source="gst_amount" />
+            <RuleInput source="total_amount" />
             <SimpleFileInput source="invoice_attachment_file_id" />
             <SimpleFileField source="invoice_attachment_file_id" title="invoice_attachment_file_name" />
         </SimpleForm>
@@ -115,6 +140,14 @@ const InvoiceShow = (props: any) => {
                 <MoneyField source="base_amount" currency="USD" />
                 <MoneyField source="gst_amount" currency="USD" />
                 <MoneyField source="total_amount" currency="USD" />
+                <DateField source="due_date" />
+                <MoneyField source="base_amount" currency="USD" />
+                <MoneyField source="gst_amount" currency="USD" />
+                <MoneyField source="total_amount" currency="USD" />
+                <DateField source="due_date" />
+                <MoneyField source="base_amount" currency="USD" />
+                <MoneyField source="gst_amount" currency="USD" />
+                <MoneyField source="total_amount" currency="USD" />
                 <SimpleFileField source="invoice_attachment_file_id" title="invoice_attachment_file_name" />
             </SimpleShowLayout>
         </Show>
@@ -123,14 +156,28 @@ const InvoiceShow = (props: any) => {
 
 const invoicesFieldSchema: FieldSchema = {
     invoice_no: { required: true, autoAssign: { format: 'INV-NNNN' } },
-    invoice_date: { required: true },
-    invoice_type: { ui: 'select', required: true, choices: invoiceTypeChoices },
+    invoice_date: { required: true,
+        rule: { left: 'today', right: 0, operation: 'default' }
+    },
+    invoice_type: { ui: 'select', required: true, choices: invoiceTypeChoices,
+            rule: { left: 'rent', leftMode: 'value', right: 0, operation: 'default' }
+        },
     rental_agreement_id: { required: true, resource: 'rental_agreements' },
-    payment_status: { ui: 'select', required: true, choices: paymentStatusChoices },
-    due_date: { required: true },
-    base_amount: { type: 'money', currency: 'USD' },
-    gst_amount: { type: 'money', currency: 'USD' },
-    total_amount: { type: 'money', currency: 'USD', required: true },
+    payment_status: { ui: 'select', required: true, choices: paymentStatusChoices,
+            rule: { left: 'pending', leftMode: 'value', right: 0, operation: 'default' }
+        },
+    due_date: { required: true,
+    rule: { left: 'invoice_date', right: 15, operation: 'date_add' }
+},
+    base_amount: { type: 'money', currency: 'USD',
+        rule: { left: 'rental_agreement.rent_amount', right: 0, operation: 'assign' }
+    },
+    gst_amount: { type: 'money', currency: 'USD',
+        rule: { left: 'rental_agreement.rent_amount', right: 0.18, operation: 'multiply' }
+    },
+    total_amount: { type: 'money', currency: 'USD', required: true,
+    rule: { left: 'base_amount', right: 'gst_amount', operation: 'add' }
+},
     invoice_attachment_file_id: {}
 };
 const invoicesSearchableFields: string[] = [

@@ -8,7 +8,7 @@
   },
   "branding": {
     "logo": "vegacore_logo.png",
-    "theme": "soft",
+    "theme": "Core",
     "layout": "vertical"
   },
   "auth": {

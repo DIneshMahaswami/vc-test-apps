@@ -7,6 +7,15 @@
         "admin": {
             "name": "Admin",
             "description": "Admins have access to most things"
+        },
+        "sales": {
+            "name": "Sales"
+        },
+        "customer": {
+            "name": "Customer"
+        },
+        "contractor": {
+            "name": "Contractor"
         }
     },
     "permissions": {
@@ -62,7 +71,91 @@
             ],
             "work_orders": [
                 "*"
+            ],
+            "work_orders_analytics": [
+                "*"
+            ],
+            "properties_analytics": [
+                "*"
+            ],
+            "invoices_analytics": [
+                "*"
             ]
+        },
+        "sales": {
+            "leads": [
+                "*"
+            ],
+            "properties": [
+                "list",
+                "show"
+            ],
+            "units": [
+                "list",
+                "show"
+            ],
+            "customers": [
+                "list",
+                "show",
+                "create",
+                "edit"
+            ],
+            "rental_agreements": [
+                "list",
+                "show",
+                "create",
+                "edit"
+            ],
+            "invoices": [
+                "list",
+                "show"
+            ]
+        },
+        "customer": {
+            "rental_agreements": {
+                "actions": [
+                    "list",
+                    "show"
+                ],
+                "row_scope": "customers"
+            },
+            "invoices": {
+                "actions": [
+                    "list",
+                    "show"
+                ],
+                "row_scope": "rental_agreements.customers"
+            },
+            "payments": {
+                "actions": [
+                    "list",
+                    "show"
+                ],
+                "row_scope": "invoices.rental_agreements.customers"
+            },
+            "service_requests": {
+                "actions": [
+                    "*"
+                ],
+                "row_scope": "customers"
+            }
+        },
+        "contractor": {
+            "work_orders": {
+                "actions": [
+                    "list",
+                    "show",
+                    "edit"
+                ],
+                "columns": {
+                    "readonly": [
+                        "work_order_amount",
+                        "contractor_id",
+                        "unit_id"
+                    ]
+                },
+                "row_scope": "contractors"
+            }
         }
     }
 }

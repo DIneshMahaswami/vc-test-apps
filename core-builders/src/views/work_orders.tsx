@@ -109,8 +109,12 @@ const WorkOrderShow = (props: any) => {
 
 const workOrdersFieldSchema: FieldSchema = {
     unit_id: { required: true, resource: 'units' },
-    work_order_date: { required: true },
-    work_order_type: { ui: 'select', required: true, choices: workOrderTypeChoices },
+    work_order_date: { required: true,
+            rule: { left: 'today', right: 0, operation: 'default' }
+        },
+    work_order_type: { ui: 'select', required: true, choices: workOrderTypeChoices,
+    rule: { left: 'service_request.request_type', right: 0, operation: 'default' }
+},
     contractor_id: { resource: 'contractors' },
     service_request_id: { resource: 'service_requests' },
     work_order_amount: { type: 'money', currency: 'USD' },
