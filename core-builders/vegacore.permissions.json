@@ -83,6 +83,18 @@
             ],
             "complaints": [
                 "*"
+            ],
+            "sites": [
+                "*"
+            ],
+            "trials": [
+                "*"
+            ],
+            "trial_sites": [
+                "*"
+            ],
+            "participants": [
+                "*"
             ]
         },
         "sales": {

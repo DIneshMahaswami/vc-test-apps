@@ -3,6 +3,18 @@ import { englishMessages, defineCatalog } from '@mahaswami/vc-frontend';
 
 const customEnglishMessages = defineCatalog(englishMessages, {
     resources: {
+        participants: {
+            name: 'Participants',
+        },
+        trial_sites: {
+            name: 'Trial Sites',
+        },
+        trials: {
+            name: 'Trials',
+        },
+        sites: {
+            name: 'Sites',
+        },
         complaints: {
             name: 'Complaints',
         },
@@ -97,6 +109,9 @@ const customEnglishMessages = defineCatalog(englishMessages, {
         //     },
         // },
     },
+    menuGroups: {
+        analytics: "Analytics"
+    }
 }) as TranslationMessages;
 
 export default customEnglishMessages;

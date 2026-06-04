@@ -691,7 +691,13 @@ INSERT INTO "complaints" ("id", "title", "details", "mobile_number", "fine", "co
 SELECT '1', 'Garbage not disposed properly', 'Garbage Not disposed properly', '008682089380', '234324', '2026-06-03T00:00:00.000Z', '2'
 WHERE EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 INSERT INTO "complaints" ("id", "title", "details", "mobile_number", "fine", "complaint_on", "tenant_id")
-SELECT '2', 'Test complaint 2', 'Garbage Not disposed properly', 'pooo8682089380', '123123213', '2026-06-04', '2'
+SELECT '2', 'Test complaint 2', 'Garbage Not disposed properly', 'pooo8682089380', '123123213', '2026-06-03T00:00:00.000Z', '2'
+WHERE EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+INSERT INTO "complaints" ("id", "title", "details", "mobile_number", "fine", "complaint_on", "tenant_id")
+SELECT '3', 'Test 3', 'Garbage Not disposed properly', '0f0058682089380', '122', '2026-06-03T00:00:00.000Z', '2'
+WHERE EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+INSERT INTO "complaints" ("id", "title", "details", "mobile_number", "fine", "complaint_on", "tenant_id")
+SELECT '4', 'Tes 4', 'Garbage Not disposed properly', '8682089380', '4.05', '2026-06-03T00:00:00.000Z', '2'
 WHERE EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 
 DELETE FROM "users";
@@ -792,7 +798,7 @@ WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '2') AND
 
 DELETE FROM "session_records";
 INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
-SELECT '1', '1', 'dev', '2026-06-03T11:07:58.034Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', 'a114682d65bf19d9ebc86ffa1d1451530241c1316cbed65e898058eabd2e1d6e', '2026-06-05T11:07:58.034Z', TRUE, NULL, NULL, '2'
+SELECT '1', '1', 'dev', '2026-06-03T11:07:58.034Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', 'a114682d65bf19d9ebc86ffa1d1451530241c1316cbed65e898058eabd2e1d6e', '2026-06-05T11:07:58.034Z', FALSE, '2026-06-03T14:22:19.804Z', 'session_limit', '2'
 WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
   EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
@@ -804,11 +810,37 @@ SELECT '3', '2', 'dev', '2026-06-03T11:53:25.040Z', '2409:4091:9031:fe09:4af0:5a
 WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '2') AND
   EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
-SELECT '4', '2', 'dev', '2026-06-03T12:01:26.363Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '914520e679511886f299f882852540f105e8092cef0cb710e9b4758920b9bbae', '2026-06-05T12:01:26.363Z', TRUE, NULL, NULL, '2'
+SELECT '4', '2', 'dev', '2026-06-03T12:01:26.363Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '914520e679511886f299f882852540f105e8092cef0cb710e9b4758920b9bbae', '2026-06-05T12:01:26.363Z', FALSE, '2026-06-03T14:22:07.875Z', 'idle_timeout', '2'
 WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '2') AND
   EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
-SELECT '5', '1', 'dev', '2026-06-03T12:36:00.467Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '45adb1db2245606d14651949a8e2e9e87018c91ca721988811cb6c046fd3566a', '2026-06-05T12:36:00.467Z', TRUE, NULL, NULL, '2'
+SELECT '5', '1', 'dev', '2026-06-03T12:36:00.467Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '45adb1db2245606d14651949a8e2e9e87018c91ca721988811cb6c046fd3566a', '2026-06-05T12:36:00.467Z', FALSE, '2026-06-03T13:37:47.765Z', 'manual', '2'
+WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
+  EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
+SELECT '6', '1', 'dev', '2026-06-03T13:37:56.157Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '5362cf2f4fd4c0a6209deabeda6e92f1ad8b6e2a27b2bcdf1f3146be8e594a0b', '2026-06-05T13:37:56.157Z', FALSE, '2026-06-03T14:22:19.215Z', 'session_limit', '2'
+WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
+  EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
+SELECT '7', '1', 'dev', '2026-06-03T14:20:40.846Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', '01fa0f05f4911584da1985f1440544ad9b7d3c0ef03dda191672f2ca225f3845', '2026-06-05T14:20:40.846Z', FALSE, '2026-06-03T14:22:57.804Z', 'manual', '2'
+WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
+  EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
+SELECT '8', '1', 'dev', '2026-06-03T14:22:21.107Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', 'cf4f753e26b1b5483131af2e0a3645e5fccfe6f4ce25f8c29bd4df4f274d633c', '2026-06-05T14:22:21.107Z', FALSE, '2026-06-03T14:24:19.189Z', 'manual', '2'
+WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
+  EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
+SELECT '9', '1', 'dev', '2026-06-03T14:23:04.402Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', 'd0d65172fb2003120cd58cbdda81c5fae7dd6d607dc5116ffce85b38ea35bbef', '2026-06-05T14:23:04.402Z', TRUE, NULL, NULL, '2'
+WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
+  EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+INSERT INTO "session_records" ("id", "user_id", "app_version", "sign_in_at", "ip_address", "location", "device_info", "auth_method", "session_token_hash", "session_token_expires_at", "is_active", "sign_out_at", "sign_out_reason", "tenant_id")
+SELECT '10', '1', 'dev', '2026-06-03T14:24:24.036Z', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', 'Linux - Chrome (Chennai, IN)', 'password', 'adab775c6dcab4cf05b48803dcb60b02cf58f40ac59bd6dceb032d954fca3008', '2026-06-05T14:24:24.036Z', TRUE, NULL, NULL, '2'
+WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
+  EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
+
+DELETE FROM "auth_audit_logs";
+INSERT INTO "auth_audit_logs" ("id", "user_id", "session_token_hash", "action", "detail", "ip_address", "location", "created_at", "admin_user_id", "tenant_id")
+SELECT '1', '1', NULL, 'session_revoked_by_limit', '{"revoked_session_ids":[6,1]}', '2409:4091:9031:fe09:4af0:5a9d:3f73:cd85', '{"city":"Chennai","country":"IN","country_code":"IN"}', '2026-06-03T14:22:20.367Z', NULL, '2'
 WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
   EXISTS (SELECT 1 FROM "tenants" ref WHERE ref."id" = '2');
 
@@ -860,7 +892,7 @@ WHERE EXISTS (SELECT 1 FROM "units" ref WHERE ref."id" = '8') AND
 
 DELETE FROM "user_security_profiles";
 INSERT INTO "user_security_profiles" ("id", "user_id", "email", "last_login_date", "failed_login_attempts_count", "creation_ip_address", "creation_location", "auth_policy_id", "is_password_enrolled", "is_authenticator_enrolled", "is_passkey_enrolled", "primary_method", "recovery_codes_remaining_count", "totp_credential_id", "password_auth_id", "passkey_credential_identifiers", "is_new_location_notify_enabled", "is_new_device_notify_enabled", "is_account_lockout_notify_enabled", "bypass_code_hash", "bypass_code_expires_at", "setup_token", "setup_token_expires_at", "inactive_locked_at", "tenant_id")
-SELECT '1', '1', 'dinesh@mahaswami.com', '2026-06-03T12:36:00.467Z', '0', NULL, NULL, '1', TRUE, FALSE, FALSE, 'password', '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2'
+SELECT '1', '1', 'dinesh@mahaswami.com', '2026-06-03T14:24:24.036Z', '0', NULL, NULL, '1', TRUE, FALSE, FALSE, 'password', '0', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2'
 WHERE EXISTS (SELECT 1 FROM "users" ref WHERE ref."id" = '1') AND
   EXISTS (SELECT 1 FROM "auth_policies" ref WHERE ref."id" = '1') AND
   EXISTS (SELECT 1 FROM "password_auths" ref WHERE ref."id" = '1') AND

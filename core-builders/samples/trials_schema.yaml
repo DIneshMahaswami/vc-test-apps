@@ -1,0 +1,29 @@
+version: "1.0"
+projectName: Test schema
+
+choices:
+
+resources:
+  # sites:
+  #   type: resource
+  #   columns:
+  #     - name:*:+
+  #     - notes:multiline
+
+  # trials:
+  #   type: resource
+  #   columns:
+  #     - name:*:+
+  #     - notes:multiline
+
+  # trial_sites:
+  #   type: resource
+  #   columns:
+  #     - site_id:*
+  #     - trial_id:*
+
+  participants:
+    type: resource
+    columns:
+      - name:*:+
+      - trial_site_id:*

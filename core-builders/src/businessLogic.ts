@@ -9,6 +9,10 @@ import { ContractorsLogic } from './logic/contractors.ts';
 import { ServiceRequestsLogic } from './logic/service_requests.ts';
 import { WorkOrdersLogic } from './logic/work_orders.ts';
 import { ComplaintsLogic } from './logic/complaints.ts';
+import { SitesLogic } from './logic/sites.ts';
+import { TrialsLogic } from './logic/trials.ts';
+import { TrialSitesLogic } from './logic/trial_sites.ts';
+import { ParticipantsLogic } from './logic/participants.ts';
 
 
 export const businessLogic = () => {
@@ -25,6 +29,10 @@ export const businessLogic = () => {
         ServiceRequestsLogic,
         WorkOrdersLogic,
         ComplaintsLogic,
+        SitesLogic,
+        TrialsLogic,
+        TrialSitesLogic,
+        ParticipantsLogic,
 
     ];
 }    

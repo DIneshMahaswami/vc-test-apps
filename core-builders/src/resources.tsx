@@ -19,6 +19,10 @@ import AnalyticsIcon from '@mui/icons-material/Analytics';
 import { PropertiesAnalyticsResource, PropertiesAnalyticsMenu } from './analytics/PropertiesAnalytics';
 import { InvoicesAnalyticsResource, InvoicesAnalyticsMenu } from './analytics/InvoicesAnalytics';
 import { ComplaintsResource, ComplaintsMenu } from './views/complaints.tsx';
+import { SitesResource, SitesMenu } from './views/sites.tsx';
+import { TrialsResource, TrialsMenu } from './views/trials.tsx';
+import { TrialSitesResource, TrialSitesMenu } from './views/trial_sites.tsx';
+import { ParticipantsResource, ParticipantsMenu } from './views/participants.tsx';
 
 
 export const configureResources = (_permissions: any) => {
@@ -41,6 +45,10 @@ export const configureResources = (_permissions: any) => {
         PropertiesAnalyticsResource,
         InvoicesAnalyticsResource,
         ComplaintsResource,
+        SitesResource,
+        TrialsResource,
+        TrialSitesResource,
+        ParticipantsResource,
 
     ]
 
@@ -75,6 +83,10 @@ export const configureMenus = (permissions: any) => {
                 <ServiceRequestsMenu />
                 <WorkOrdersMenu />
                 <ComplaintsMenu />
+                <SitesMenu />
+                <TrialsMenu />
+                <TrialSitesMenu />
+                <ParticipantsMenu />
                 <NestedMenu label="Settings" icon={<GearIcon />} defaultOpen={false}>
                     {isDocumentGenerationModuleActive() && <DocumentTemplatesMenu />}
                     {isHistoryModuleActive() && <HistoryMenu />}
