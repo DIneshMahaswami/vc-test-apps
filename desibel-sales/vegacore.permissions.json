@@ -1,0 +1,83 @@
+{
+    "roles": {
+        "super_admin": {
+            "name": "Super Admin",
+            "description": "Super Admins have access to everything"
+        },
+        "admin": {
+            "name": "Admin",
+            "description": "Admins have access to most things"
+        }
+    },
+    "permissions": {
+        "super_admin": {
+            "*": [
+                "*"
+            ]
+        },
+        "admin": {
+            "document_templates": [
+                "*"
+            ],
+            "digital_signatures": [
+                "*"
+            ],
+            "error_logs": [
+                "list"
+            ],
+            "history": [
+                "list",
+                "show",
+                "restoreHistory"
+            ],
+            "users": [
+                "*"
+            ],
+            "employees": [
+                "*"
+            ],
+            "customers": [
+                "*"
+            ],
+            "products": [
+                "*"
+            ],
+            "inventories": [
+                "*"
+            ],
+            "leads": [
+                "*"
+            ],
+            "quotations": [
+                "*"
+            ],
+            "quotation_items": [
+                "*"
+            ],
+            "sales_orders": [
+                "*"
+            ],
+            "sales_order_items": [
+                "*"
+            ],
+            "invoices": [
+                "*"
+            ],
+            "payments": [
+                "*"
+            ],
+            "purchase_orders": [
+                "*"
+            ],
+            "purchase_order_items": [
+                "*"
+            ],
+            "stock_movements": [
+                "*"
+            ],
+            "sales_targets": [
+                "*"
+            ]
+        }
+    }
+}

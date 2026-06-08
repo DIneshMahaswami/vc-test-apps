@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 6 335.0625 68">
+  <rect x="5" y="10" width="60" height="60" rx="4" fill="#004D40"></rect>
+  <rect x="15" y="40" width="10" height="20" fill="#64FFDA"></rect>
+  <rect x="30" y="25" width="10" height="35" fill="#64FFDA"></rect>
+  <rect x="45" y="15" width="10" height="45" fill="#64FFDA"></rect>
+  <text x="75" y="52" font-family="DM Sans" font-size="28" font-weight="800" letter-spacing="2" fill="#004D40" text-transform="uppercase">CORE BUILDERS</text>
+</svg>

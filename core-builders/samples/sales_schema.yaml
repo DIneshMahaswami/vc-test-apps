@@ -1,0 +1,225 @@
+version: "1.0"
+projectName: Sales & Inventory ERP
+
+choices:
+  # user_role:
+  #   - Admin
+  #   - Sales Manager
+  #   - Sales Executive
+  #   - Inventory Manager
+  #   - Accountant
+  #   - CEO
+
+  product_category:
+    - Electronics
+    - Furniture
+    - Office Supplies
+    - Software
+    - Services
+
+  customer_type:
+    - Individual
+    - Business
+    - Government
+
+  lead_status:
+    - New
+    - Contacted
+    - Qualified
+    - Proposal Sent
+    - Negotiation
+    - Won
+    - Lost
+
+  quotation_status:
+    - Draft
+    - Sent
+    - Approved
+    - Rejected
+    - Expired
+
+  sales_order_status:
+    - Draft
+    - Confirmed
+    - Processing
+    - Shipped
+    - Delivered
+    - Cancelled
+
+  payment_status:
+    - Pending
+    - Partially Paid
+    - Paid
+    - Overdue
+
+  payment_method:
+    - Cash
+    - Cheque
+    - Bank Transfer
+    - UPI
+    - Credit Card
+
+resources:
+  employees:
+    type: resource
+    columns:
+      - employee_code:*:+
+      - first_name:*
+      - last_name
+      - email:*:+
+      - phone
+      - joining_date
+      - is_active
+
+  customers:
+    type: resource
+    columns:
+      - customer_name:*:+
+      - customer_type:select:*
+      - contact_person
+      - phone
+      - email
+      - gstin
+      - address_line_1
+      - city
+      - state
+      - pin_code
+      - notes:multiline
+    fieldChoices:
+      customer_type: customer_type
+  products:
+    type: master-detail
+    columns:
+      - product_code:*:+
+      - product_name:*:+
+      - category:select:*
+      - unit_price:*
+      - tax_percentage
+      - description:multiline
+    fieldChoices:
+      category: product_category
+    details:
+      - name: inventories
+        menu: true
+        columns:
+          - warehouse_name:*
+          - quantity_in_stock:*
+          - reorder_level
+          - last_stock_update
+
+  leads:
+    type: resource
+    columns:
+      - customer_name:*
+      - company_name
+      - phone
+      - email
+      - lead_source
+      - assigned_employee_id
+      - status:select:*
+      - expected_value
+      - notes:multiline
+    fieldChoices:
+      status: lead_status
+
+  quotations:
+    type: master-detail
+    columns:
+      - quotation_no:*:auto_assign
+      - quotation_date:*
+      - customer_id:*
+      - status:select:*
+      - valid_until
+      - total_amount
+      - notes:multiline
+    fieldChoices:
+      status: quotation_status
+    details:
+      - name: quotation_items
+        menu: true
+        columns:
+          - product_id:*
+          - quantity:*
+          - unit_price:*
+          - discount_percentage
+          - total_amount
+
+  sales_orders:
+    type: master-detail
+    columns:
+      - order_no:*:auto_assign
+      - customer_id:*
+      - quotation_id
+      - order_date:*
+      - status:select:*
+      - total_amount
+      - delivery_date
+    fieldChoices:
+      status: sales_order_status
+    details:
+      - name: sales_order_items
+        menu: true
+        columns:
+          - product_id:*
+          - quantity:*
+          - unit_price
+          - tax_amount
+          - total_amount
+
+  invoices:
+    type: resource
+    columns:
+      - invoice_no:*:auto_assign
+      - invoice_date:*
+      - sales_order_id:*
+      - payment_status:select:*
+      - due_date
+      - total_amount
+    fieldChoices:
+      payment_status: payment_status
+
+  payments:
+    type: resource
+    columns:
+      - invoice_id:*
+      - payment_date:*
+      - payment_method:select:*
+      - payment_reference
+      - payment_amount:*
+    fieldChoices:
+      payment_method: payment_method
+
+  purchase_orders:
+    type: master-detail
+    columns:
+      - po_no:*:auto_assign
+      - supplier_name:*
+      - po_date:*
+      - expected_delivery_date
+      - total_amount
+    details:
+      - name: purchase_order_items
+        menu: true
+        columns:
+          - product_id:*
+          - quantity:*
+          - purchase_price:*
+          - total_amount:*
+
+  stock_movements:
+    type: resource
+    columns:
+      - product_id:*
+      - movement_date:*
+      - movement_type:*
+      - quantity:*
+      - reference_no
+      - remarks:multiline
+
+  sales_targets:
+    type: resource
+    columns:
+      - employee_id:*
+      - target_month:*
+      - target_amount:*
+      - achieved_amount
