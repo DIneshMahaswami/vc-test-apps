@@ -1,0 +1,43 @@
+version: "1.0"
+projectName: DataProvider Test Tables
+
+# Three-table hierarchy (countries → states → cities) backing the dataProvider /
+# analytics integration suite. id, tenant_id and audit columns are auto-injected
+# by the generator, so they are intentionally omitted here.
+#
+# Column types are inferred from name suffixes:
+#   *_id                    → reference (FK; non-standard names resolve by the segment before _id)
+#   *_date                  → date
+#   *_timestamp/*_at/*_time → date (with time component — renders showTime / DateTimeInput)
+#   *_number                → number
+#   *_amount                → money
+#   is_*                    → boolean
+# Modifiers (colon): * = required, + = unique.
+
+resources:
+  countries:
+    type: resource
+    columns:
+      - name:*
+      - gdp_amount
+
+  states:
+    type: resource
+    columns:
+      - name:*
+      - country_id
+      - founded_date
+      - is_active
+
+  cities:
+    type: resource
+    columns:
+      - name:*
+      - state_id
+      - partner_state_id
+      - founding_country_id
+      - founded_date
+      - population_number
+      - budget_amount
+      - is_capital
+      - recorded_timestamp

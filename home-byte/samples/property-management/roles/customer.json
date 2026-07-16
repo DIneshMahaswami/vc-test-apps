@@ -1,0 +1,38 @@
+{
+    "roles": {
+        "customer": {
+            "name": "Customer"
+        }
+    },
+    "permissions": {
+        "customer": {
+            "rental_agreements": {
+                "actions": [
+                    "list",
+                    "show"
+                ],
+                "row_scope": "customers"
+            },
+            "invoices": {
+                "actions": [
+                    "list",
+                    "show"
+                ],
+                "row_scope": "rental_agreements.customers"
+            },
+            "payments": {
+                "actions": [
+                    "list",
+                    "show"
+                ],
+                "row_scope": "invoices.rental_agreements.customers"
+            },
+            "service_requests": {
+                "actions": [
+                    "*"
+                ],
+                "row_scope": "customers"
+            }
+        }
+    }
+}
