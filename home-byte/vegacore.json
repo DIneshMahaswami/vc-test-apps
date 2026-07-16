@@ -68,6 +68,29 @@
         "localhost"
       ],
       "roleAppBaseUrls": {}
+    },
+    "prod": {
+      "data": {
+        "type": "hd",
+        "ref": "hd-demo-1",
+        "schema": "home_byte_prod"
+      },
+      "files": {
+        "type": "r2",
+        "ref": "VC_BUCKET"
+      },
+      "notifications": {
+        "email": {
+          "type": "gmail",
+          "senderEmail": "swanstack@mahaswami.com"
+        }
+      },
+      "service": {
+        "url": "https://swan-backend-preview.upkeep-plosive0o.workers.dev"
+      },
+      "domains": [
+        "home-byte.remoteaccess.cc"
+      ]
     }
   }
 }
