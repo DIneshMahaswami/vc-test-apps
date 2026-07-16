@@ -93,6 +93,6 @@ export const configureMenus = (permissions: any) => {
 
 export const configureLandingPage = (_permissions: any) => {
     return {
-        "super_admin": "/tenants",
+        "super_admin": "/tenants"
     }
 }

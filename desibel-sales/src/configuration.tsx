@@ -62,7 +62,7 @@ export const configureToolbarActions = (_permissions: any) => {
 }
 
 export const themes = (defaultThemes: any) => {
-    return defaultThemes;
+    return [...defaultThemes, desibelSalesTheme, desibelSales2Theme, desibelSales3Theme, desibelSales4Theme];
 }
 
 export const wrapCustomDataProvider = (_queryClient: any, dataProvider: any) => {
@@ -71,6 +71,10 @@ export const wrapCustomDataProvider = (_queryClient: any, dataProvider: any) => 
 
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import englishMessages from './i18n/en';
+import { desibelSalesTheme } from './themes/desibelSalesTheme';
+import { desibelSales2Theme } from './themes/desibelSales2Theme';
+import { desibelSales3Theme } from './themes/desibelSales3Theme';
+import { desibelSales4Theme } from './themes/desibelSales4Theme';
 
 const messages = {
     en: englishMessages,

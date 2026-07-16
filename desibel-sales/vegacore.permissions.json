@@ -7,6 +7,15 @@
         "admin": {
             "name": "Admin",
             "description": "Admins have access to most things"
+        },
+        "employee": {
+            "name": "Employee"
+        },
+        "accountant": {
+            "name": "Accountant"
+        },
+        "manager": {
+            "name": "Manager"
         }
     },
     "permissions": {
@@ -76,6 +85,56 @@
                 "*"
             ],
             "sales_targets": [
+                "*"
+            ]
+        },
+        "employee": {
+            "customers": [
+                "*"
+            ],
+            "products": [
+                "*"
+            ],
+            "sales_targets": {
+                "actions": [
+                    "show",
+                    "list"
+                ],
+                "row_scope": "employees"
+            }
+        },
+        "accountant": {},
+        "manager": {
+            "customers": [
+                "*"
+            ],
+            "employees": [
+                "*"
+            ],
+            "digital_signatures": [
+                "*"
+            ],
+            "document_templates": [],
+            "history": [],
+            "sales_order_items": [
+                "*"
+            ],
+            "sales_orders": [
+                "*"
+            ],
+            "purchase_orders": [
+                "*"
+            ],
+            "quotation_items": [
+                "*"
+            ],
+            "quotations": [
+                "*"
+            ],
+            "products": [
+                "*"
+            ],
+            "users": [
                 "*"
             ]
         }

@@ -1,245 +1,362 @@
 version: "1.0"
-projectName: Property Management System
+projectName: Desibal Headphone Sales ERP
 
 choices:
-  property_type:
-    - Residential
-    - Commercial
-    - Mixed Use
-    - Industrial
-  business_type:
-    - IT Services
-    - Retail
-    - Manufacturing
-    - Healthcare
-    - Education
-    - Consulting
-  contractor_type:
-    - Plumbing
-    - Electrical
-    - Cleaning
-    - Security
-    - HVAC
-    - General Maintenance
-  work_order_type:
-    - Plumbing
-    - Electrical
-    - HVAC
-    - Cleaning
-    - Pest Control
-    - Structural
-    - General
-  unit_status:
-    - Available
-    - Reserved
-    - Occupied
-    - Under Maintenance
-  rental_status:
-    - Draft
-    - Active
-    - Terminated
-    - Expired
+  employee_role:
+    - Admin
+    - Sales Manager
+    - Sales Executive
+    - Accountant
+    - Service Executive
+
+  customer_type:
+    - Individual
+    - Retailer
+    - Corporate
+
+  product_category:
+    - TWS Earbuds
+    - Wireless Headphones
+    - Wired Headphones
+    - Gaming Headsets
+    - Neckbands
+    - Accessories
+
+  connection_type:
+    - Bluetooth
+    - Wired
+    - Both
+
   lead_status:
     - New
     - Contacted
-    - Site Visit Scheduled
-    - Negotiating
+    - Qualified
+    - Proposal Sent
+    - Negotiation
+    - Won
     - Lost
-    - Converted
-  request_status:
-    - Open
-    - In Progress
+
+  quotation_status:
+    - Draft
+    - Sent
+    - Approved
+    - Rejected
+    - Expired
+
+  order_status:
+    - Draft
+    - Confirmed
+    - Processing
+    - Packed
+    - Shipped
+    - Delivered
     - Cancelled
-    - Completed
-  invoice_type:
-    - Rent
-    - Maintenance
-    - Security Deposit
-    - Late Fee
+
+  invoice_status:
+    - Draft
+    - Issued
+    - Paid
+    - Partially Paid
+    - Overdue
+    - Cancelled
+
+  payment_method:
+    - Cash
+    - UPI
+    - Credit Card
+    - Debit Card
+    - Bank Transfer
+    - EMI
+
   payment_status:
     - Pending
     - Partially Paid
-    - Overdue
     - Paid
-  payment_method:
-    - Cash
-    - Cheque
-    - Bank Transfer
-    - UPI
-    - Card
+    - Refunded
+
+  purchase_order_status:
+    - Draft
+    - Ordered
+    - Received
+    - Cancelled
+
+  service_request_status:
+    - Open
+    - In Progress
+    - Waiting For Customer
+    - Resolved
+    - Closed
+    - Rejected
+
+  service_type:
+    - Warranty Claim
+    - Repair
+    - Replacement
+    - Return
+    - Technical Support
+
+  expense_type:
+    - Travel
+    - Food
+    - Accommodation
+    - Fuel
+    - Internet
+    - Office Supplies
+    - Miscellaneous
+
+  expense_status:
+    - Draft
+    - Submitted
+    - Approved
+    - Rejected
+    - Reimbursed
 
 resources:
-  properties:
-    type: master-detail
+  employees:
+    type: resource
     columns:
-      - name:*:+
-      - property_type:radio:*
+      - employee_code:*:+
+      - first_name:*
+      - last_name
+      - role:select:*
+      - email:*:+
+      - phone
+      - joining_date
+      - commission_percentage
+      - is_active
+    fieldChoices:
+      role: employee_role
+
+  customers:
+    type: resource
+    columns:
+      - customer_name:*:+
+      - customer_type:select:*
+      - company_name
+      - contact_person
+      - phone
+      - email
+      - gstin
       - address_line_1
-      - city:*
+      - city
       - state
       - pin_code
       - notes:multiline
+      - is_active
     fieldChoices:
-      property_type: property_type
+      customer_type: customer_type
+
+  products:
+    type: master-detail
+    columns:
+      - sku:*:+
+      - product_name:*:+
+      - category:select:*
+      - connection_type:select
+      - model_number:+
+      - mrp_price:*
+      - selling_price:*
+      - cost_price
+      - warranty_months_number
+      - stock_quantity_number
+      - reorder_level_number
+      - description:multiline
+      - product_image_file_id
+      - is_active
+    fieldChoices:
+      category: product_category
+      connection_type: connection_type
     details:
-      - name: units
+      - name: product_variants
         menu: true
         columns:
-          - name:*:+
-          - floor
-          - sqft_number
-          - rent_per_sqft_price
-          - maintenance_per_sqft_price
-          - status:select:*
-          - is_furnished
-          - description:rich
-        fieldChoices:
-          status: unit_status
-
-  customers:
-    type: wizard
-    columns:
-      - business_name:*
-      - business_type:select:*
-      - business_pan:*:+
-      - gstin:*:+
-      - primary_contact_name:*
-      - primary_contact_phone:*
-      - primary_contact_email:*:+
-      - secondary_contact_name
-      - secondary_contact_phone
-      - secondary_contact_email
-      - registered_building_name
-      - registered_suite
-      - registered_address_line_1
-      - registered_address_line_2
-      - registered_city
-      - registered_state
-      - registered_pin_code
-      - incorporation_certificate_attachment_file_id
-      - memorandum_of_articles_attachment_file_id
-      - articles_of_association_attachment_file_id
-      - gst_registration_attachment_file_id
-    fieldChoices:
-      business_type: business_type
-    steps:
-      - name: BusinessInformation
-        label: Business Information
-        columns:
-          - business_name:*
-          - business_type:select:*
-          - business_pan:*:+
-          - gstin:*:+
-      - name: Contacts
-        label: Contacts
-        columns:
-          - primary_contact_name:*
-          - primary_contact_phone:*
-          - primary_contact_email:*:+
-          - secondary_contact_name
-          - secondary_contact_phone
-          - secondary_contact_email
-      - name: AddressDocuments
-        label: Address & Documents
-        columns:
-          - registered_building_name
-          - registered_suite
-          - registered_address_line_1
-          - registered_address_line_2
-          - registered_city
-          - registered_state
-          - registered_pin_code
-          - incorporation_certificate_attachment_file_id
-          - memorandum_of_articles_attachment_file_id
-          - articles_of_association_attachment_file_id
-          - gst_registration_attachment_file_id
-
-  rental_agreements:
-    type: resource
-    columns:
-      - unit_id:*
-      - customer_id:*
-      - status:select:*
-      - rental_start_date:*
-      - rental_end_date
-      - agreement_date
-      - rent_amount:*
-      - security_deposit_amount
-      - rental_agreement_attachment_file_id
-    fieldChoices:
-      status: rental_status
+          - variant_code:+
+          - color_name
+          - barcode:+
+          - selling_price
+          - stock_quantity_number
+          - is_active
 
   leads:
     type: resource
     columns:
-      - unit_id:*
-      - status:select:*
-      - inquiry_date:*
       - customer_name:*
-      - customer_phone
-      - customer_email
+      - company_name
+      - phone
+      - email
+      - interested_product_id
+      - assigned_employee_id
+      - expected_revenue_amount
+      - next_followup_date
+      - status:select:*
+      - notes:multiline
     fieldChoices:
       status: lead_status
+
+  quotations:
+    type: master-detail
+    columns:
+      - quotation_number:*:auto_assign
+      - quotation_date:*
+      - customer_id:*
+      - sales_employee_id
+      - valid_until_date
+      - status:select:*
+      - subtotal_amount
+      - discount_amount
+      - tax_amount
+      - total_amount
+      - notes:multiline
+    fieldChoices:
+      status: quotation_status
+    details:
+      - name: quotation_items
+        menu: true
+        columns:
+          - product_id:*
+          - quantity_number:*
+          - unit_price:*
+          - discount_percentage
+          - total_amount
+
+  purchase_orders:
+    type: master-detail
+    columns:
+      - po_number:*:auto_assign
+      - vendor_name:*
+      - contact_person
+      - phone
+      - order_date:*
+      - expected_delivery_date
+      - status:select:*
+      - subtotal_amount
+      - tax_amount
+      - total_amount
+      - notes:multiline
+    fieldChoices:
+      status: purchase_order_status
+    details:
+      - name: purchase_order_items
+        menu: true
+        columns:
+          - product_id:*
+          - quantity_number:*
+          - purchase_price:*
+          - total_amount
+
+  sales_orders:
+    type: master-detail
+    columns:
+      - order_number:*:auto_assign
+      - order_date:*
+      - customer_id:*
+      - quotation_id
+      - sales_employee_id
+      - status:select:*
+      - subtotal_amount
+      - discount_amount
+      - tax_amount
+      - shipping_amount
+      - total_amount
+      - expected_delivery_date
+      - notes:multiline
+    fieldChoices:
+      status: order_status
+    details:
+      - name: sales_order_items
+        menu: true
+        columns:
+          - product_id:*
+          - quantity_number:*
+          - unit_price
+          - discount_percentage
+          - total_amount
 
   invoices:
     type: resource
     columns:
-      - invoice_no:*:auto_assign
+      - invoice_number:*:auto_assign
       - invoice_date:*
-      - invoice_type:select:*
-      - rental_agreement_id:*
-      - payment_status:select:*
-      - due_date:*
-      - base_amount
-      - gst_amount
-      - total_amount:*
-      - invoice_attachment_file_id
+      - sales_order_id:*
+      - due_date
+      - status:select:*
+      - subtotal_amount
+      - discount_amount
+      - tax_amount
+      - total_amount
+      - notes:multiline
     fieldChoices:
-      invoice_type: invoice_type
-      payment_status: payment_status
+      status: invoice_status
 
   payments:
     type: resource
     columns:
       - invoice_id:*
-      - payment_reference
       - payment_date:*
       - payment_method:select:*
+      - payment_reference
       - payment_amount:*
+      - status:select:*
+      - remarks:multiline
     fieldChoices:
       payment_method: payment_method
-
-  contractors:
-    type: resource
-    columns:
-      - name:*:+
-      - contractor_type:select:*
-      - notes:multiline
-    fieldChoices:
-      contractor_type: contractor_type
-
-  work_orders:
-    type: resource
-    columns:
-      - unit_id:*
-      - work_order_date:*
-      - work_order_type:select:*
-      - contractor_id
-      - service_request_id
-      - work_order_amount
-      - notes:multiline
-    fieldChoices:
-      work_order_type: work_order_type
+      status: payment_status
 
   service_requests:
     type: resource
     columns:
-      - rental_agreement_id:*
-      - customer_id
-      - request_type:select:*
-      - status:select:*
+      - ticket_number:*:auto_assign
       - request_date:*
-      - completed_date
+      - customer_id:*
+      - product_id:*
+      - sales_order_id
+      - assigned_employee_id
+      - service_type:select:*
+      - serial_number
+      - issue_description:multiline
+      - status:select:*
+      - resolution_notes:multiline
+      - closed_date
     fieldChoices:
-      request_type: work_order_type
-      status: request_status
+      service_type: service_type
+      status: service_request_status
+
+  sales_targets:
+    type: resource
+    columns:
+      - employee_id:*
+      - start_date:*
+      - end_date:*
+      - target_amount:*
+      - achieved_amount
+      - commission_amount
+      - notes:multiline
+
+  expense_claims:
+    type: master-detail
+    columns:
+      - claim_number:*:auto_assign
+      - employee_id:*
+      - claim_date:*
+      - period_start_date
+      - period_end_date
+      - status:select:*
+      - total_amount
+      - approved_amount
+      - approved_by_employee_id
+      - approval_date
+      - remarks:multiline
+  fieldChoices:
+    status: expense_status
+  details:
+    - name: expense_claim_items
+      menu: true
+      columns:
+        - expense_date:*
+        - expense_type:select:*
+        - description
+        - receipt_file_id
+        - expense_amount:*
+        - remarks
+      fieldChoices:
+        expense_type: expense_type

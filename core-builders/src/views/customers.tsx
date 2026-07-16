@@ -250,6 +250,7 @@ export const CustomersResource = (
         show={<CustomerShow/>}
         hasDialog
         hasLiveUpdate
+        hasSearch
         cardList={<CustomersCardList/>}
         hasColumnChooser
         sort={{ field: 'business_name', order: 'ASC' }}

@@ -8,7 +8,7 @@
   },
   "branding": {
     "logo": "vegacore_logo.png",
-    "theme": "Core",
+    "theme": "default",
     "layout": "vertical"
   },
   "auth": {
@@ -56,8 +56,12 @@
         "email": {
           "type": "gmail",
           "region": "us-east-1",
-          "senderEmail": "vegacore@mahaswami.com"
+          "senderEmail": "vegacore@mahaswami.com",
+          "support_team_email": "lokeshwaran+support@mahaswami.com"
         }
+      },
+      "roleAppBaseUrls": {
+        "customer": "https://portal.acme.com"
       },
       "service": {
         "url": "https://swan-backend-preview.upkeep-plosive0o.workers.dev"
