@@ -100,8 +100,12 @@ const LeadShow = (props: any) => {
 
 const leadsFieldSchema: FieldSchema = {
     unit_id: { required: true, resource: 'units' },
-    status: { ui: 'select', required: true, choices: statusChoices },
-    inquiry_date: { required: true },
+    status: { ui: 'select', required: true, choices: statusChoices,
+                rule: { left: 'new', leftMode: 'value', right: 0, operation: 'default' }
+            },
+    inquiry_date: { required: true,
+    rule: { left: 'today', right: 0, operation: 'default' }
+},
     customer_name: { required: true },
     customer_phone: {},
     customer_email: {}
