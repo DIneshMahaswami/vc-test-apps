@@ -5,7 +5,6 @@ import {
     useResourceContext,
 } from "react-admin";
 import { TagField, type TagFieldProps } from "./TagField";
-import { PER_PAGE_UNLIMITED } from "@mahaswami/vc-frontend";
 
 interface TagsArrayFieldProps extends Omit<ReferenceArrayFieldProps, "reference"> {
     context?: string;
@@ -17,17 +16,16 @@ export const TagsField = (props: TagsArrayFieldProps) => {
 
     const resource = useResourceContext(props);
     let tagContext = props?.context;
-    let options = {showColor: true, showDescription: true }
+    let options = { showColor: true, showDescription: true }
 
     if (!tagContext) {
         const fieldSchema = window.swanAppFunctions.resourceDefinitions?.[resource as string]?.fieldSchema ?? {};
-        for (const field in fieldSchema) {
-            if (fieldSchema[field]?.ui === "tags" && fieldSchema[field]?.context) {
-                tagContext = fieldSchema[field]?.context;
-            }
-            if (fieldSchema[field]?.ui === "tags" && fieldSchema[field]?.options) {
-                options = { ...options, ...fieldSchema[field]?.options ?? {} }
-            }
+        const fieldConfig = fieldSchema[props?.source]
+        if (fieldConfig?.ui === "tags" && fieldConfig?.context) {
+            tagContext = fieldConfig?.context;
+        }
+        if (fieldConfig?.ui === "tags" && fieldConfig?.options) {
+            options = { ...options, ...fieldConfig?.options ?? {} }
         }
     }
 
@@ -40,7 +38,7 @@ export const TagsField = (props: TagsArrayFieldProps) => {
 
 
     return (
-        <ReferenceArrayField perPage={PER_PAGE_UNLIMITED} reference="tags" filter={{ context }} {...rest} >
+        <ReferenceArrayField pagination={false} reference="tags" filter={{ context }} {...rest} >
             <SingleFieldList linkType={false}>
                 <TagField
                     source="name"

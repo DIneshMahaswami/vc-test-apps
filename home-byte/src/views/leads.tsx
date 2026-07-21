@@ -1,10 +1,14 @@
-import { Resource, createDefaults, tableDefaults,
-	editDefaults, formDefaults, listDefaults,
-	showDefaults, RowActions, DataTable, SimpleShowLayout, SimpleForm,
-	type ResourceActionDefs, type FieldSchema, SelectField, SelectInput, CardGrid, recordRep, createReferenceField, createReferenceInput, ReferenceLiveFilter, ChoicesLiveFilter, DateLiveFilter, TextLiveFilter} from '@mahaswami/vc-frontend';
+import {
+    Resource, createDefaults, tableDefaults,
+    editDefaults, formDefaults, listDefaults,
+    showDefaults, RowActions, DataTable, SimpleShowLayout, SimpleForm,
+    type ResourceActionDefs, type FieldSchema, SelectField, SelectInput, CardGrid, recordRep, createReferenceField, createReferenceInput, ReferenceLiveFilter, ChoicesLiveFilter, DateLiveFilter, TextLiveFilter
+} from '@mahaswami/vc-frontend';
 import { ContactMail } from '@mui/icons-material';
-import { Create, Edit, List, Menu, Show,
-    type ListProps, TextField, TextInput, DateField, DateInput, AutocompleteInput, required} from "react-admin";
+import {
+    Create, Edit, List, Menu, Show,
+    type ListProps, TextField, TextInput, DateField, DateInput, AutocompleteInput, required
+} from "react-admin";
 import { UnitsReferenceField, UnitsReferenceInput } from './properties.js';
 import { TagsInput } from '../components/TagsInput';
 import { TagsField } from '../components/TagsField';
@@ -31,14 +35,16 @@ export const LeadsList = (props: ListProps) => {
     return (
         <List {...listDefaults(props)}>
             <DataTable {...tableDefaults(RESOURCE)} hiddenColumns={['customer_email']} >
-                <DataTable.Col source="unit_id" field={UnitsReferenceField}/>
+                <DataTable.Col source="unit_id" field={UnitsReferenceField} />
                 <DataTable.Col source="status" field={StatusChoiceField} />
-                <DataTable.Col source="inquiry_date" field={DateField}/>
+                <DataTable.Col source="inquiry_date" field={DateField} />
                 <DataTable.Col source="customer_name" />
                 <DataTable.Col source="customer_phone" />
                 <DataTable.Col source="customer_email" />
                 <DataTable.Col source="lead_tag_ids" field={TagsField} />
-                <RowActions/>
+                <DataTable.Col source="lead_status_ids" field={TagsField} />
+                <DataTable.Col source="lead_attribute_ids" field={TagsField} />
+                <RowActions />
             </DataTable>
         </List>
     )
@@ -51,6 +57,8 @@ export const LeadsCardList = (props: ListProps) => {
                 <SelectField source="status" choices={statusChoices} />
                 <DateField source="inquiry_date" />
                 <TagsField source='lead_tag_ids' />
+                <TagsField source="lead_status_ids" />
+                <TagsField source="lead_attribute_ids" />
             </CardGrid>
         </List>
     )
@@ -58,12 +66,14 @@ export const LeadsCardList = (props: ListProps) => {
 
 const LeadForm = (props: any) => {
     return (
-        <SimpleForm {...formDefaults(props)} display="grid"  gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}  gap="1rem" >
+        <SimpleForm {...formDefaults(props)} display="grid" gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }} gap="1rem" >
             <UnitsReferenceInput source="unit_id">
                 <AutocompleteInput validate={required()} />
             </UnitsReferenceInput>
             <SelectInput source="status" choices={statusChoices} validate={required()} />
             <TagsInput source="lead_tag_ids" validate={required()} />
+            <TagsInput source="lead_status_ids" />
+            <TagsInput source="lead_attribute_ids" />
             <DateInput source="inquiry_date" validate={required()} />
             <TextInput source="customer_name" validate={required()} />
             <TextInput source="customer_phone" />
@@ -82,7 +92,7 @@ const LeadEdit = (props: any) => {
 
 const LeadCreate = (props: any) => {
     return (
-    	<Create {...createDefaults(props)}>
+        <Create {...createDefaults(props)}>
             <LeadForm />
         </Create>
     )
@@ -91,7 +101,7 @@ const LeadCreate = (props: any) => {
 const LeadShow = (props: any) => {
     return (
         <Show {...showDefaults(props)}>
-            <SimpleShowLayout display="grid"  gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}  gap="1rem" >
+            <SimpleShowLayout display="grid" gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }} gap="1rem" >
                 <UnitsReferenceField source="unit_id" />
                 <SelectField source="status" choices={statusChoices} />
                 <DateField source="inquiry_date" />
@@ -99,6 +109,8 @@ const LeadShow = (props: any) => {
                 <TextField source="customer_phone" />
                 <TextField source="customer_email" />
                 <TagsField source="lead_tag_ids" />
+                <TagsField source="lead_status_ids" />
+                <TagsField source="lead_attribute_ids" />
             </SimpleShowLayout>
         </Show>
     )
@@ -106,18 +118,40 @@ const LeadShow = (props: any) => {
 
 const leadsFieldSchema: FieldSchema = {
     unit_id: { required: true, resource: 'units' },
-    status: { ui: 'select', required: true, choices: statusChoices,
-                rule: { left: 'new', leftMode: 'value', right: 0, operation: 'default' }
-            },
-    inquiry_date: { required: true,
-    rule: { left: 'today', right: 0, operation: 'default' }
+    status: {
+        ui: 'select', required: true, choices: statusChoices,
+        rule: { left: 'new', leftMode: 'value', right: 0, operation: 'default' }
+    },
+    inquiry_date: {
+        required: true,
+        rule: { left: 'today', right: 0, operation: 'default' }
     },
     customer_name: { required: true },
     customer_phone: {},
     customer_email: {},
     lead_tag_ids: {
-        ui: 'tags', 
-        context: 'leads_tags', 
+        ui: 'tags',
+        context: 'leads_tags',
+        options: {
+            allowEdit: true,
+            allowCreate: true,
+            showColor: true,
+            showDescription: true,
+        }
+    },
+    lead_status_ids: {
+        ui: 'tags',
+        context: 'leads_status',
+        options: {
+            allowEdit: true,
+            allowCreate: true,
+            showColor: true,
+            showDescription: true,
+        }
+    },
+    lead_attribute_ids: {
+        ui: 'tags',
+        context: 'leads_tags',
         options: {
             allowEdit: true,
             allowCreate: true,
@@ -140,19 +174,19 @@ export const LeadsResource = (
         icon={ICON}
         prefetch={PREFETCH}
         recordRepresentation={(record: any) => recordRep('units', record.unit)}
-        fieldSchema={ leadsFieldSchema}
-        actionDefs={ leadsActionDefs}
-        searchableFields={ leadsSearchableFields}
+        fieldSchema={leadsFieldSchema}
+        actionDefs={leadsActionDefs}
+        searchableFields={leadsSearchableFields}
         filters={filters}
         filtersPlacement="top"
-        list={<LeadsList/>}
-        create={<LeadCreate/>}
-        edit={<LeadEdit/>}
-        show={<LeadShow/>}
+        list={<LeadsList />}
+        create={<LeadCreate />}
+        edit={<LeadEdit />}
+        show={<LeadShow />}
         // hasDialog
         hasLiveUpdate
         hasFilterChooser
-        cardList={<LeadsCardList/>}
+        cardList={<LeadsCardList />}
         hasColumnChooser
         sort={{ field: 'unit.name', order: 'ASC' }}
     />

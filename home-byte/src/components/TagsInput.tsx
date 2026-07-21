@@ -55,13 +55,12 @@ export const TagsInput = (inProps: TagsArrayInputProps) => {
 
     if (!tagContext) {
         const fieldSchema = window.swanAppFunctions.resourceDefinitions?.[resource as string]?.fieldSchema ?? {};
-        for (const field in fieldSchema) {
-            if (fieldSchema[field]?.ui === "tags" && fieldSchema[field]?.context) {
-                tagContext = fieldSchema[field]?.context;
-            }
-            if (fieldSchema[field]?.ui === "tags" && fieldSchema[field]?.options) {
-                options = { ...options, ...fieldSchema[field]?.options ?? {} }
-            }
+        const fieldConfig = fieldSchema[props?.source]
+        if (fieldConfig?.ui === "tags" && fieldConfig?.context) {
+            tagContext = fieldConfig?.context;
+        }
+        if (fieldConfig?.ui === "tags" && fieldConfig?.options) {
+            options = { ...options, ...fieldConfig?.options ?? {} }
         }
     }
 
@@ -175,7 +174,7 @@ export const TagsInput = (inProps: TagsArrayInputProps) => {
     );
 
     return (
-        <ReferenceArrayInput perPage={PER_PAGE_UNLIMITED} filter={filter} {...rest} reference="tags">
+        <ReferenceArrayInput page={1} perPage={PER_PAGE_UNLIMITED} filter={filter} {...rest} reference="tags">
             <StyledTagsInput className={className}>
                 <AutocompleteArrayInput
                     className="RaTagsInput-input"

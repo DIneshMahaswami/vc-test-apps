@@ -9,7 +9,8 @@ import {
 import { Label } from '@mui/icons-material';
 import {
     Create, Edit, List, Menu, Show,
-    type ListProps, TextField, TextInput, required, useUnique
+    type ListProps, TextField, TextInput, required, useUnique,
+    useRecordContext
 } from "react-admin";
 import { ColorField } from '../components/ColorField';
 import { ColorInput } from '../components/ColorInput';
@@ -27,7 +28,13 @@ const filters = [
     <TextLiveFilter source="search" show />
 ]
 
-export const contextChoices = [{ id: 'leads_tags', name: 'Leads Tags' }, { id: 'units_tags', name: 'Units Tags' }]
+// Choices should be added here every new tag field added.
+export const contextChoices = [
+    { id: 'leads_tags', name: 'Leads Tags' },
+    { id: 'units_tags', name: 'Units Tags' },
+    { id: "leads_status", name: "Leads Status" }
+];
+
 export const ContextChoiceField = (props: any) => <SelectField {...props} choices={contextChoices} />;
 
 export const TagsList = (props: ListProps) => {
@@ -56,10 +63,12 @@ export const TagsCardList = (props: ListProps) => {
 
 const TagForm = (props: any) => {
     const unique = useUnique();
+    const record = useRecordContext();
+    const isEdit = record?.id ? true : false;
     return (
         <SimpleForm {...formDefaults(props)}>
             <TextInput source="name" validate={[required(), unique()]} />
-            <SelectInput source="context" choices={contextChoices} validate={required()} />
+            <SelectInput source="context" choices={contextChoices} validate={required()} readOnly={isEdit} />
             <ColorInput source="color" previewLabel="resources.tags.tag_preview" showPreview watchField='name' />
             <TextInput source="description" multiline rows={3} />
         </SimpleForm>
@@ -76,7 +85,7 @@ const TagEdit = (props: any) => {
 
 const TagCreate = (props: any) => {
     return (
-        <Create {...createDefaults(props)}>
+        <Create {...createDefaults({ ...props, redirect: "list" })}>
             <TagForm />
         </Create>
     )

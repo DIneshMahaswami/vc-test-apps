@@ -30,9 +30,12 @@ import {
     RuleInput
 } from '@mahaswami/vc-frontend';;
 import { Assignment } from '@mui/icons-material';
-import { Create, Edit, List, Menu, Show, type ListProps, DateField, DateInput, AutocompleteInput, required } from "react-admin";
+import { Create, Edit, List, Menu, Show, type ListProps, DateField, DateInput, AutocompleteInput, required, TextField, TextInput } from "react-admin";
 import { UnitsReferenceField, UnitsReferenceInput } from './properties.js';
 import { CustomersReferenceField, CustomersReferenceInput } from './customers.js';
+import { TagsField } from '../components/TagsField';
+import { TagsInput } from '../components/TagsInput';
+import { TagField } from '../components/TagField';
 
 export const RESOURCE = "rental_agreements"
 export const ICON = Assignment
@@ -64,15 +67,16 @@ export const RentalAgreementsList = (props: ListProps) => {
     return (
         <List {...listDefaults(props)}>
             <DataTable {...tableDefaults(RESOURCE)} hiddenColumns={['agreement_date', 'rent_amount', 'security_deposit_amount']} >
-                <DataTable.Col source="unit_id" field={UnitsReferenceField}/>
-                <DataTable.Col source="customer_id" field={CustomersReferenceField}/>
+                <DataTable.Col source="unit_id" field={UnitsReferenceField} />
+                <DataTable.Col source="customer_id" field={CustomersReferenceField} />
                 <DataTable.Col source="status" field={StatusChoiceField} />
-                <DataTable.Col source="rental_start_date" field={DateField}/>
-                <DataTable.Col source="rental_end_date" field={DateField}/>
-                <DataTable.Col source="agreement_date" field={DateField}/>
-                <DataTable.Col source="rent_amount" field={RentAmountMoneyField}/>
-                <DataTable.Col source="security_deposit_amount" field={SecurityDepositAmountMoneyField}/>
-                <RowActions/>
+                <DataTable.Col source="rental_start_date" field={DateField} />
+                <DataTable.Col source="rental_end_date" field={DateField} />
+                <DataTable.Col source="agreement_date" field={DateField} />
+                <DataTable.Col source="rent_amount" field={RentAmountMoneyField} />
+                <DataTable.Col source="security_deposit_amount" field={SecurityDepositAmountMoneyField} />
+                <DataTable.Col source="agreement_tag_ids" field={TagsField} />
+                <RowActions />
             </DataTable>
         </List>
     )
@@ -84,6 +88,7 @@ export const RentalAgreementsCardList = (props: ListProps) => {
             <CardGrid title={<UnitsReferenceField source="unit_id" variant='h6' link={false} />}>
                 <CustomersReferenceField source="customer_id" />
                 <SelectField source="status" choices={statusChoices} />
+                <TagsField source="agreement_tag_ids" />
             </CardGrid>
         </List>
     )
@@ -91,7 +96,7 @@ export const RentalAgreementsCardList = (props: ListProps) => {
 
 const RentalAgreementForm = (props: any) => {
     return (
-        <SimpleForm {...formDefaults(props)} display="grid"  gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}  gap="1rem" >
+        <SimpleForm {...formDefaults(props)} display="grid" gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }} gap="1rem" >
             <UnitsReferenceInput source="unit_id">
                 <AutocompleteInput validate={required()} />
             </UnitsReferenceInput>
@@ -106,6 +111,7 @@ const RentalAgreementForm = (props: any) => {
             <RuleInput source="security_deposit_amount" />
             <SimpleFileInput source="rental_agreement_attachment_file_id" />
             <SimpleFileField source="rental_agreement_attachment_file_id" title="rental_agreement_attachment_file_name" />
+            <TagsInput source="agreement_tag_ids" />
         </SimpleForm>
     )
 }
@@ -120,7 +126,7 @@ const RentalAgreementEdit = (props: any) => {
 
 const RentalAgreementCreate = (props: any) => {
     return (
-    	<Create {...createDefaults(props)}>
+        <Create {...createDefaults(props)}>
             <RentalAgreementForm />
         </Create>
     )
@@ -129,7 +135,7 @@ const RentalAgreementCreate = (props: any) => {
 const RentalAgreementShow = (props: any) => {
     return (
         <Show {...showDefaults(props)}>
-            <SimpleShowLayout display="grid"  gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }}  gap="1rem" >
+            <SimpleShowLayout display="grid" gridTemplateColumns={{ xs: '1fr', md: '1fr 1fr' }} gap="1rem" >
                 <UnitsReferenceField source="unit_id" />
                 <CustomersReferenceField source="customer_id" />
                 <SelectField source="status" choices={statusChoices} />
@@ -139,6 +145,7 @@ const RentalAgreementShow = (props: any) => {
                 <MoneyField source="rent_amount" currency="INR" />
                 <MoneyField source="security_deposit_amount" currency="INR" />
                 <SimpleFileField source="rental_agreement_attachment_file_id" title="rental_agreement_attachment_file_name" />
+                <TagsField source="agreement_tag_ids" />
             </SimpleShowLayout>
         </Show>
     )
@@ -147,19 +154,31 @@ const RentalAgreementShow = (props: any) => {
 const rentalAgreementsFieldSchema: FieldSchema = {
     unit_id: { required: true, resource: 'units' },
     customer_id: { required: true, resource: 'customers' },
-    status: { ui: 'select', required: true, choices: statusChoices,
-    rule: { left: 'draft', leftMode: 'value', right: 0, operation: 'default' }
-},
+    status: {
+        ui: 'select', required: true, choices: statusChoices,
+        rule: { left: 'draft', leftMode: 'value', right: 0, operation: 'default' }
+    },
     rental_start_date: { required: true },
     rental_end_date: {},
     agreement_date: {
-                    rule: { left: 'today', right: 0, operation: 'default' }
-                },
+        rule: { left: 'today', right: 0, operation: 'default' }
+    },
     rent_amount: { type: 'money', currency: 'INR', required: true },
-    security_deposit_amount: { type: 'money', currency: 'INR',
-            rule: { left: 'rent_amount', right: 2, operation: 'multiply', decimals: 2 }
-        },
-    rental_agreement_attachment_file_id: {}
+    security_deposit_amount: {
+        type: 'money', currency: 'INR',
+        rule: { left: 'rent_amount', right: 2, operation: 'multiply', decimals: 2 }
+    },
+    rental_agreement_attachment_file_id: {},
+    agreement_tag_ids: {
+        ui: 'tags',
+        context: 'leads_tags',
+        options: {
+            allowEdit: true,
+            allowCreate: true,
+            showColor: true,
+            showDescription: true,
+        }
+    }
 };
 const rentalAgreementsSearchableFields: string[] = [
     'unit.name',
@@ -176,19 +195,19 @@ export const RentalAgreementsResource = (
         icon={ICON}
         prefetch={PREFETCH}
         recordRepresentation={(record: any) => recordRep('units', record.unit)}
-        fieldSchema={ rentalAgreementsFieldSchema}
-        actionDefs={ rentalAgreementsActionDefs}
-        searchableFields={ rentalAgreementsSearchableFields}
+        fieldSchema={rentalAgreementsFieldSchema}
+        actionDefs={rentalAgreementsActionDefs}
+        searchableFields={rentalAgreementsSearchableFields}
         filters={filters}
         filtersPlacement="top"
-        list={<RentalAgreementsList/>}
-        create={<RentalAgreementCreate/>}
-        edit={<RentalAgreementEdit/>}
-        show={<RentalAgreementShow/>}
+        list={<RentalAgreementsList />}
+        create={<RentalAgreementCreate />}
+        edit={<RentalAgreementEdit />}
+        show={<RentalAgreementShow />}
         hasDialog
         hasLiveUpdate
         hasFilterChooser
-        cardList={<RentalAgreementsCardList/>}
+        cardList={<RentalAgreementsCardList />}
         hasColumnChooser
         sort={{ field: 'unit.name', order: 'ASC' }}
     />
