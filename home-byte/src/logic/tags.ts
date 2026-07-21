@@ -13,7 +13,7 @@ const afterDeleteCleanupTagReferences = async (params: any, dataProvider: any) =
         const bulkUpdateRequests = await buildTagReferenceUpdateRequests([deletedTagId], resourceDefinitions, dataProvider);
         console.log("After delete bulk request ", bulkUpdateRequests)
         if (bulkUpdateRequests.length > 0) {
-            await dataProvider.executeBatch(bulkUpdateRequests, "after_delete_update_tag_references");
+            await dataProvider.executeBatch(bulkUpdateRequests);
         }
     } catch (error) {
         remoteLog("ERROR: While after delete Update tag references", error);
@@ -36,7 +36,7 @@ const afterDeleteManyCleanupTagReferences = async (params: any, dataProvider: an
         console.log("After delete many bulk request ", bulkUpdateRequests)
 
         if (bulkUpdateRequests.length > 0) {
-            await dataProvider.executeBatch(bulkUpdateRequests, "after_delete_many_update_tag_references");
+            await dataProvider.executeBatch(bulkUpdateRequests);
         }
     } catch (error) {
         remoteLog("ERROR: While after delete many Update tag references", error);
