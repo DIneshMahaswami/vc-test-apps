@@ -288,7 +288,7 @@ export const UnitsResource = (
 )
 
 export const PropertiesMenu = () => (
-    <Menu.Item to={`/${RESOURCE}`} primaryText="Properties" leftIcon={<ICON />} />
+    <Menu.Item to={`/${RESOURCE}`} primaryText="Properties 3rd" leftIcon={<ICON />} />
 )
 
 export const UnitsMenu = () => (

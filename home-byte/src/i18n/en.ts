@@ -1,5 +1,6 @@
 import { TranslationMessages } from 'react-admin';
 import { englishMessages, defineCatalog } from '@mahaswami/vc-frontend';
+import { preview } from 'vite/dist/node';
 
 const customEnglishMessages = defineCatalog(englishMessages, {
     resources: {
@@ -135,7 +136,8 @@ const customEnglishMessages = defineCatalog(englishMessages, {
                 inquiry_date: "Inquiry Date",
                 customer_name: "Customer Name",
                 customer_phone: "Customer Phone",
-                customer_email: "Customer Email"
+                customer_email: "Customer Email",
+                lead_tag_ids: "Tags"
             },
             choices: {
                 status: {
@@ -264,8 +266,23 @@ const customEnglishMessages = defineCatalog(englishMessages, {
                     general: "General"
                 }
             }
+        },
+        tags: {
+            name: "Tags",
+            tag_preview: "Preview Tag EN",
+            fields: {
+                name: "Tag Name",
+                context: "Context",
+                color: "Color",
+                description: "Description"
+            }
         }
     },
+    ra: {
+        message: {
+            preview: "Preview"
+        }
+    }
 }) as TranslationMessages;
 
 export default customEnglishMessages;

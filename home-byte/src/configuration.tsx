@@ -71,15 +71,18 @@ export const wrapCustomDataProvider = (_queryClient: any, dataProvider: any) => 
 
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import englishMessages from './i18n/en';
+import taMessages from "./i18n/ta";
 
 const messages = {
     en: englishMessages,
+    ta: taMessages
 } as any;
 
 export const customizeI18nProvider = () => {
     const supportedLanguagesList = [
             { locale: 'en', name: 'English', key: 'en' },
-        ]
+        { locale: "ta", name: "தமிழ் — Tamil", key: "ta" }
+    ]
     if (navigator.language.startsWith('en-') || navigator.language === 'en' ) {
         supportedLanguagesList[0].locale = navigator.language;
     } 

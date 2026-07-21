@@ -19,7 +19,8 @@
       "enabled": true,
       "timeoutMinutes": 30,
       "warningMinutes": 5,
-      "ttlHours": 24
+      "ttlHours": 1,
+      "refreshIntervalMs": 120000
     }
   },
   "files": {

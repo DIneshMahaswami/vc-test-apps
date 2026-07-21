@@ -71,6 +71,9 @@
             ],
             "work_orders": [
                 "*"
+            ],
+            "tags": [
+                "*"
             ]
         },
         "sales": {

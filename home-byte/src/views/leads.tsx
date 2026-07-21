@@ -6,6 +6,8 @@ import { ContactMail } from '@mui/icons-material';
 import { Create, Edit, List, Menu, Show,
     type ListProps, TextField, TextInput, DateField, DateInput, AutocompleteInput, required} from "react-admin";
 import { UnitsReferenceField, UnitsReferenceInput } from './properties.js';
+import { TagsInput } from '../components/TagsInput';
+import { TagsField } from '../components/TagsField';
 
 export const RESOURCE = "leads"
 export const ICON = ContactMail
@@ -35,6 +37,7 @@ export const LeadsList = (props: ListProps) => {
                 <DataTable.Col source="customer_name" />
                 <DataTable.Col source="customer_phone" />
                 <DataTable.Col source="customer_email" />
+                <DataTable.Col source="lead_tag_ids" field={TagsField} />
                 <RowActions/>
             </DataTable>
         </List>
@@ -47,6 +50,7 @@ export const LeadsCardList = (props: ListProps) => {
             <CardGrid title={<UnitsReferenceField source="unit_id" variant='h6' link={false} />}>
                 <SelectField source="status" choices={statusChoices} />
                 <DateField source="inquiry_date" />
+                <TagsField source='lead_tag_ids' />
             </CardGrid>
         </List>
     )
@@ -59,6 +63,7 @@ const LeadForm = (props: any) => {
                 <AutocompleteInput validate={required()} />
             </UnitsReferenceInput>
             <SelectInput source="status" choices={statusChoices} validate={required()} />
+            <TagsInput source="lead_tag_ids" validate={required()} />
             <DateInput source="inquiry_date" validate={required()} />
             <TextInput source="customer_name" validate={required()} />
             <TextInput source="customer_phone" />
@@ -93,6 +98,7 @@ const LeadShow = (props: any) => {
                 <TextField source="customer_name" />
                 <TextField source="customer_phone" />
                 <TextField source="customer_email" />
+                <TagsField source="lead_tag_ids" />
             </SimpleShowLayout>
         </Show>
     )
@@ -105,10 +111,20 @@ const leadsFieldSchema: FieldSchema = {
             },
     inquiry_date: { required: true,
     rule: { left: 'today', right: 0, operation: 'default' }
-},
+    },
     customer_name: { required: true },
     customer_phone: {},
-    customer_email: {}
+    customer_email: {},
+    lead_tag_ids: {
+        ui: 'tags', 
+        context: 'leads_tags', 
+        options: {
+            allowEdit: true,
+            allowCreate: true,
+            showColor: true,
+            showDescription: true,
+        }
+    }
 };
 const leadsSearchableFields: string[] = [
     'unit.name',
@@ -133,7 +149,7 @@ export const LeadsResource = (
         create={<LeadCreate/>}
         edit={<LeadEdit/>}
         show={<LeadShow/>}
-        hasDialog
+        // hasDialog
         hasLiveUpdate
         hasFilterChooser
         cardList={<LeadsCardList/>}
